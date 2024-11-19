@@ -7,4 +7,5 @@ lxml
 selenium
 psutils
 colorlog
+scapy
 
