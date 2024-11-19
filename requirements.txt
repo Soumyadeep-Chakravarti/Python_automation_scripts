@@ -6,4 +6,5 @@ openpyxl
 lxml
 selenium
 psutils
+colorlog
 
