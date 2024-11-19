@@ -1,11 +1,11 @@
 import os
-from .terminal.git-automations.git-repo-automation import GitAutomation
+from .terminal.git_automations.git_repo_automation import GitAutomation
 import subprocess
 
 
 class GitRepository:
     """A class to represent and manage a Git repository."""
-    
+
     def __init__(self, path):
         self.path = os.path.abspath(path)
         self.name = os.path.basename(self.path)
@@ -26,7 +26,7 @@ class GitRepository:
             ["git", "status", "--porcelain"],
             cwd=self.path,
             text=True,
-            capture_output=True
+            capture_output=True,
         ).stdout.strip()
         return bool(status)
 
@@ -37,7 +37,7 @@ class GitRepository:
             ["git", "rev-list", "--left-right", "--count", "HEAD...@{u}"],
             cwd=self.path,
             text=True,
-            capture_output=True
+            capture_output=True,
         ).stdout.strip()
         ahead, behind = map(int, result.split()) if result else (0, 0)
         return ahead, behind
@@ -57,14 +57,20 @@ class GitRepository:
         ahead, behind = self.check_branch_status()
         if ahead or behind:
             if ahead > 0:
-                print(f"[{self.name}] Local branch is ahead by {ahead} commits. Pushing changes...")
+                print(
+                    f"[{self.name}] Local branch is ahead by {ahead} commits. Pushing changes..."
+                )
                 GitAutomation.git_push()
-            
+
             if behind > 0:
-                print(f"[{self.name}] Local branch is behind by {behind} commits. Pulling changes...")
+                print(
+                    f"[{self.name}] Local branch is behind by {behind} commits. Pulling changes..."
+                )
                 GitAutomation.git_pull()
         else:
-            print(f"[{self.name}] No changes to pull or push. Repository is up to date.")
+            print(
+                f"[{self.name}] No changes to pull or push. Repository is up to date."
+            )
 
 
 class GitManager:
@@ -99,7 +105,7 @@ class GitManager:
 if __name__ == "__main__":
     # Set the base directory (change this to your repositories directory)
     base_directory = os.path.expanduser("~/Desktop/Projects")
-    
+
     # Adjust for Windows paths if necessary
     if os.name == "nt":
         base_directory = "C:/Users/bunas/Desktop/Projects"
